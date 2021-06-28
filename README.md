@@ -25,7 +25,7 @@
 
 ## 尝试增大batch size大小
 
-从“图6 训练损失曲线”来看，在训练过程中验证集曲线震荡明显，很有可能是过小的batch size造成了每次训练确定的梯度下降方向不准确。因此，如果能增加batch size的值可能会为模型带来更高的分类准确度。同时因为一次读入的样本增多了，所以在一定程度上也可能会加快模型的训练速度。
+从训练损失曲线来看，在训练过程中验证集曲线震荡明显，很有可能是过小的batch size造成了每次训练确定的梯度下降方向不准确。因此，如果能增加batch size的值可能会为模型带来更高的分类准确度。同时因为一次读入的样本增多了，所以在一定程度上也可能会加快模型的训练速度。
 
 但过大的batch size值也可能会将模型收敛到一些不好的局部最优点。也正是因为这一点，此时要达到同样的分类准确度所需要的训练时间会明显增加。
 
@@ -85,23 +85,23 @@
 
 对于主程序“Load_Model.py”，其工作流程如下。
 
-![主程序流程图](images\主程序流程图.png)
+![主程序流程图](https://github.com/Erlnesa/MonaCNN/blob/main/images/主程序流程图.png)
 
 ## 3．数据集处理程序原理
 
 对于数据扩充程序“Data_Augmentation.py”，其工作流程如下。
 
-![数据扩充流程图](images\数据扩充流程图.png)
+![数据扩充流程图](https://github.com/Erlnesa/MonaCNN/blob/main/images/数据扩充流程图.png)
 
 对于数据集格式调整程序“Png_to_Jpg.py”，其工作流程如下。
 
-![数据集预处理流程图](images\数据集预处理流程图.png)
+![数据集预处理流程图](https://github.com/Erlnesa/MonaCNN/blob/main/images/数据集预处理流程图.png)
 
 ## 4．神经网络生成程序原理
 
 对于神经网络生成程序“Save_Model.py”，其工作流程如下。
 
-![模型训练流程图](images\模型训练流程图.png)
+![模型训练流程图](https://github.com/Erlnesa/MonaCNN/blob/main/images/模型训练流程图.png)
 
 ## 5．神经网络工作流程及模型结构
 
@@ -111,7 +111,7 @@
 
 对于训练完毕的MonaCNN，其网络层级结构如“图 5 MonaCNN的网络层级结构”所示。
 
-![model](images\model.png)
+![model](https://github.com/Erlnesa/MonaCNN/blob/main/images/model.png)
 
 其中预处理层会将图片格式化到 512 × 512 的大小，同时将图片的 *RGB* 值从 [0, 255]映射到[0, 1]区间内。
 
@@ -121,7 +121,7 @@
 
 最后连接输出层，输出层拥有两个神经元，它将输出图片分别属于两类的概率数值 *Pa* 与 *Pb* 。将 *Pa* 带入下述公式来确定输入图片应有的分类状况。
 
-![](images\gs1.png)
+![](https://github.com/Erlnesa/MonaCNN/blob/main/images/gs1.png)
 
 其中*P*为用户自定义的最低置信度，默认为95%
 
@@ -133,7 +133,7 @@
 
 预训练完毕后再由正常的样本集（画面里含有“莫娜”的图片；画面里没有“莫娜”的图片）训练得到最终不会过于关注角色服装和头发颜色的模型。训练损失曲线如“图 6 训练损失曲线”所示。
 
-![训练损失曲线](images\Model_Performance.jpg)
+![训练损失曲线](https://github.com/Erlnesa/MonaCNN/blob/main/images/Model_Performance.jpg)
 
 # 五、使用说明书
 

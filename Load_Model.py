@@ -1,5 +1,6 @@
 import configparser
 from shutil import copyfile
+import time
 
 import PIL
 import matplotlib.pyplot as plt
@@ -9,35 +10,31 @@ import os
 # 隐藏tensorflow的输出信息
 from PIL.Image import Image
 
+
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
 import tensorflow_datasets as tfds
 import random
 import tensorflow as tf
-
+from tensorflow.python.keras.utils.vis_utils import plot_model
 tfds.disable_progress_bar()
 import pathlib
 import matplotlib.pyplot as plt
 from tensorflow import keras
 
-#导入配置文件
+# 导入配置文件
 ini_config = configparser.ConfigParser()
 ini_path = 'MonaCNN_config.ini'
 ini_config.read(ini_path)
-
-
 
 # 读取模型
 model = tf.keras.models.load_model(ini_config.get('model', 'save_path'))
 # 查看网络的所有层
 model.summary()
-
-
+plot_model(model, to_file='model.png', show_shapes=True, show_dtype=True)
+exit()
 
 # 限制图片显示尺寸
 img_size = int(ini_config.get('model', 'input_size'))
-
-
-
 
 # MoeLoader +1s
 
@@ -71,10 +68,10 @@ if ini_config.get('test_data', 'need_copyfile_flag') == "true":
 else:
     need_copyfile_flag = False
 
-
 copyfile_path = ini_config.get('test_data', 'copyfile_path')
 for test_paths_index in all_test_image_paths:
     try:
+        start_time_clock = time.time()
         # 按照rgb格式读取，忽略其他图层
         img = keras.preprocessing.image.load_img(
             test_paths_index,
@@ -87,20 +84,17 @@ for test_paths_index in all_test_image_paths:
         predictions = model.predict(img_array)
         score = tf.nn.softmax(predictions[0])
 
-        print(
-            "这张图片最接近分类 {} ，置信度为 {:.2f} %"
-                .format(np.argmax(score), 100 * np.max(score))
-        )
+        # print("这张图片最接近分类 {} ，置信度为 {:.2f} %".format(np.argmax(score), 100 * np.max(score)))
 
-        print(test_paths_index)
+        # print(test_paths_index)
 
         # 以图片文件名读取标签来统计正确率，标签不参与神经网络的判断
         target_img_path = test_paths_index.split('\\')[len(test_paths_index.split('\\')) - 1]
         if target_img_path.count('mona') >= 1:
             true_mona_pic_conunt = true_mona_pic_conunt + 1
 
-        print(np.argmax(score))
-        print(np.max(score))
+        # print(np.argmax(score))
+        # print(np.max(score))
         if (np.argmax(score) == 0) and (np.max(score) >= minimum_confidence):
             # 当前人物有足够置信度认为是莫纳
             if need_copyfile_flag:
@@ -111,12 +105,12 @@ for test_paths_index in all_test_image_paths:
                 # 不是mona但被识别为了mona
                 err_for_mona_conunt = err_for_mona_conunt + 1
         elif target_img_path.count('mona') > 0:
-            #是mona但没有被识别出来
+            # 是mona但没有被识别出来
             err_for_other_conunt = err_for_other_conunt + 1
         # else:
-            # plt.title("别的女人")
-            # print('D:/Python_Project/Mona/Be/other/' + target_img_path)
-            # copyfile(test_paths_index, 'C:/Users/76067/Pictures/Be/other/' + str(np.max(score)) + '_' + target_img_path)
+        # plt.title("别的女人")
+        # print('D:/Python_Project/Mona/Be/other/' + target_img_path)
+        # copyfile(test_paths_index, 'C:/Users/76067/Pictures/Be/other/' + str(np.max(score)) + '_' + target_img_path)
 
         '''
         plt.imshow(load_and_preprocess_image(test_paths_index))
@@ -128,14 +122,22 @@ for test_paths_index in all_test_image_paths:
     
         plt.show()
         '''
-        print()
+        end_time_clock = time.time()
+        runningTime = end_time_clock - start_time_clock
+        runningTime = round(runningTime, 2)
+        print('%f' % runningTime)
+        file = r'time_cost.txt'
+        with open(file, "ab+") as f:  # 可追加可写二进制，文件若不存在就创建
+            abab = str(runningTime)
+            abab += "\t"
+            f.write(abab.encode())
     except PIL.UnidentifiedImageError:
         print("错误的图片格式或图片已损坏")
 
-print('图片总数：'+str(image_test_count))
-print('真实mona类总数：'+str(true_mona_pic_conunt))
-print('模型分类出的mona类总数：'+str(test_mona_pic_conunt))
-print('未被识别出的mona总数：'+str(err_for_other_conunt))
-print('被错误识别为mona总数：'+str(err_for_mona_conunt))
-print('分类错误的数量：'+str(err_for_mona_conunt + err_for_other_conunt))
-print('准确度：'+str(round(((test_mona_pic_conunt - err_for_mona_conunt) / true_mona_pic_conunt) * 100, 2)))
+print('图片总数：' + str(image_test_count))
+print('真实mona类总数：' + str(true_mona_pic_conunt))
+print('模型分类出的mona类总数：' + str(test_mona_pic_conunt))
+print('未被识别出的mona总数：' + str(err_for_other_conunt))
+print('被错误识别为mona总数：' + str(err_for_mona_conunt))
+print('分类错误的数量：' + str(err_for_mona_conunt + err_for_other_conunt))
+print('准确度：' + str(round(((test_mona_pic_conunt - err_for_mona_conunt) / true_mona_pic_conunt) * 100, 2)))

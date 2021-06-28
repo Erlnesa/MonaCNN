@@ -13,7 +13,7 @@ datagen = ImageDataGenerator(
     zoom_range=0.2,
     horizontal_flip=True,
     fill_mode='nearest')
-path = "C:/Users/Erlnesa/.keras/datasets/mona/mona/"
+path = "D:/dataset/新数据集/（原始数据）mona_other/mona/"
 dirs = os.listdir(path)
 x_all = []
 for file in dirs:
@@ -25,7 +25,7 @@ for file in dirs:
         x_all.append(x)
         i = 0
         for batch in datagen.flow(x, batch_size=1,
-                                  save_to_dir='C:/Users/Erlnesa/.keras/datasets/mona/mona_aug'):
+                                  save_to_dir='D:/dataset/新数据集/（数据扩充）正样本/'):
             i += 1
             if i > 1:  # 数据扩充倍数，i倍则会扩充出源数据的（i+1）份新数据
                 break  # 否则生成器会退出循环

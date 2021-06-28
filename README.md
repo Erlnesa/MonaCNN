@@ -2,7 +2,7 @@
 
 从图库网站[danbooru](https://danbooru.donmai.us/)以“genshin_impact”作为关键词批量下载了5342枚图片，其中部分内容如下图。
 
-![分类前](images\分类前.jpg)
+![分类前](https://github.com/Erlnesa/MonaCNN/blob/main/images/分类前.jpg)
 
 将这5342枚图片以人工识别的方式预先进行分类，以此作为分类前的测试数据集使用，以此检验该系统在一般使用环境下的使用情况和分类准确度。
 
@@ -19,7 +19,7 @@
 
 其中，单张图片预测分类消耗所的时间为：0.06~0.27秒，平均值为0.075秒，众数为0.06秒。运行结果如“图 9 分类后的测试集”所示。
 
-![分类后](images\分类后.jpg)
+![分类后](https://github.com/Erlnesa/MonaCNN/blob/main/images/分类后.jpg)
 
 # 二、未来的改进和研究方向
 

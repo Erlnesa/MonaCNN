@@ -81,29 +81,11 @@
 
 也可重新选择训练样本数据集，然后重新训练MonaCNN来完成对不同动漫角色或是其他内容的分类。
 
-## 2．主程序原理
+## 2．程序原理图
 
-对于主程序“Load_Model.py”，其工作流程如下。
+https://github.com/Erlnesa/MonaCNN/blob/main/images
 
-![主程序流程图](https://github.com/Erlnesa/MonaCNN/blob/main/images/主程序流程图.png)
-
-## 3．数据集处理程序原理
-
-对于数据扩充程序“Data_Augmentation.py”，其工作流程如下。
-
-![数据扩充流程图](https://github.com/Erlnesa/MonaCNN/blob/main/images/数据扩充流程图.png)
-
-对于数据集格式调整程序“Png_to_Jpg.py”，其工作流程如下。
-
-![数据集预处理流程图](https://github.com/Erlnesa/MonaCNN/blob/main/images/数据集预处理流程图.png)
-
-## 4．神经网络生成程序原理
-
-对于神经网络生成程序“Save_Model.py”，其工作流程如下。
-
-![模型训练流程图](https://github.com/Erlnesa/MonaCNN/blob/main/images/模型训练流程图.png)
-
-## 5．神经网络工作流程及模型结构
+## 3．神经网络工作流程及模型结构
 
 首先按照“图 1 数据扩充流程图”中所述流程对训练样本进行数据扩充，保证正负样本数量和不小于8000张图片，且正负样本数量之差不大于100张图片。
 
@@ -127,7 +109,7 @@
 
 当 *f( x ) = 0* 时认为图片属于"画面里含有‘莫娜’"的一类；当 *f( x ) = 1* 时认为图片属于“画面里没有‘莫娜’”的一类。
 
-## 6．神经网络的迁移学习
+## 4．神经网络的迁移学习
 
 在初期测试中发现MonaCNN的预测能力并不理想，模型过于专注图片中角色的服装颜色和头发颜色。因此对于MonaCNN本文选择了迁移学习的训练方法。先选择服装和头发颜色与“莫娜”近似的角色作为一类，其他服装和头发颜色与“莫娜”有明显区别的其他的角色作为另外一类。
 
